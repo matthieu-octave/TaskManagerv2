@@ -20,6 +20,19 @@
         </select>
     </div>
     <div class="mb-3">
+    <label class="form-label">Étiquettes</label>
+    <div>
+    @foreach ($tags as $tag)
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag-{{ $tag->id }}"
+                @if(in_array($tag->id, old('tags', $project->tags->pluck('id')->toArray() ?? []))) checked @endif
+            >
+            <label class="form-check-label" for="tag-{{ $tag->id }}">{{ $tag->name }}</label>
+        </div>
+    @endforeach
+    </div>
+</div>
+    <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea class="form-control" id="description" name="description"
             rows="5">{{ old('description', $project->description) }}</textarea>

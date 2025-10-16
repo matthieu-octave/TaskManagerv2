@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         // Appelle le seeder que nous venons de créer
         $this->call([
             ClientSeeder::class,
+            TagSeeder::class,
         ]);
     }
 }

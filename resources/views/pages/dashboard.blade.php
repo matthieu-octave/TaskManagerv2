@@ -40,6 +40,18 @@
         </a>
     </div>
 </div>
+<div class="mb-3">
+    <strong>Filtrer par étiquette :</strong>
+    <a href="{{ route('dashboard') }}" class="btn btn-sm {{ !$currentTag ? 'btn-primary' : 'btn-outline-primary' }}">
+        Toutes
+    </a>
+    @foreach ($allTags as $tag)
+    <a href="{{ route('dashboard', ['tag' => $tag->name]) }}"
+        class="btn btn-sm {{ $currentTag == $tag->name ? 'btn-primary' : 'btn-outline-primary' }}">
+        {{ $tag->name }}
+    </a>
+    @endforeach
+</div>
 <div class="card">
     <div class="card-header">
         <h2 class="h5 mb-0">Mes projets</h2>
@@ -87,8 +99,15 @@
             <tbody>
                 @forelse ($projects as $project)
                 <tr>
+                    {{-- Dans la boucle @forelse du tableau, modifiez la cellule du titre --}}
+
                     <td>
                         <a href="{{ route('projects.show', $project) }}">{{ $project->title }}</a>
+                        <div class="mt-1">
+                            @foreach ($project->tags as $tag)
+                            <span class="badge bg-info">{{ $tag->name }}</span>
+                            @endforeach
+                        </div>
                     </td>
                     <td>{{ $project->created_at->format('d/m/Y') }}</td>
 

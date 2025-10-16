@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Policies\ProjectPolicy;
 use Illuminate\Validation\Rule;
 use App\Models\Client;
+use App\Models\Tag;
 
 class ProjectController extends Controller
 {
@@ -22,28 +23,42 @@ class ProjectController extends Controller
     {
         // On récupère le filtre de statut depuis l'URL, par défaut 'Actif'
         $statusFilter = $request->query('status', 'Actif');
+        // Filtre par étiquette
+        $tagFilter = $request->query('tag'); // Nouveau : filtre par étiquette
 
-
-        // 1. On récupère les paramètres de tri depuis l'URL, avec des valeurs par défaut.
+        // On récupère les paramètres de tri depuis l'URL, avec des valeurs par défaut.
         $sortColumn = $request->query('sort', 'created_at'); // Par défaut, on trie par date de création
         $sortDirection = $request->query('direction', 'desc'); // Par défaut, du plus récent au plus ancien
         // Petite validation pour éviter les erreurs si l'URL est modifiée manuellement
         if (!in_array($sortColumn, ['title', 'created_at'])) {
             $sortColumn = 'created_at';
         }
-        // 2. On construit la requête Eloquent en appliquant le tri.
-        $projects = Auth::user()
-            ->projects()
-            ->filterByStatus($statusFilter) // <-- On utilise notre nouveau scope !
-            ->orderBy($sortColumn, $sortDirection)
-            ->get();
-        // On récupère le nombre total de projets
-        $projectCount = $projects->count();
-        // 3. On passe les projets triés à la vue et les paramètres de tri actuels à la vue
+        // --- Construction de la requête Eloquent ---
+        // 1. On commence la requête de base et on charge les relations pour la performance
+        $projectsQuery = Auth::user()->projects()->with('tags', 'client');
+        // 2. On applique le filtre de statut (via le scope que vous avez déjà créé)
+        $projectsQuery->filterByStatus($statusFilter);
+
+        // 3. NOUVEAU : On applique le filtre par étiquette s'il existe
+        if ($tagFilter) {
+            $projectsQuery->whereHas('tags', function ($query) use ($tagFilter) {
+                $query->where('name', $tagFilter);
+            });
+        }
+        // 4. On exécute la requête finale en appliquant le tri
+        $projects = $projectsQuery->orderBy($sortColumn, $sortDirection)->get();
+
+        // --- Préparation des données pour la vue ---
+        $projectCount = Auth::user()->projects()->count(); // Compte total, non filtré
+        $allTags = Tag::all(); // Récupère toutes les étiquettes pour les boutons de filtre
+
+        // 5. On passe toutes les données nécessaires à la vue
         return view('pages.dashboard', [
             'projects' => $projects,
             'projectCount' => $projectCount,
-            'statusFilter' => $statusFilter, // On passe le filtre actuel à la vue
+            'statusFilter' => $statusFilter,
+            'allTags' => $allTags,
+            'currentTag' => $tagFilter,
             'sortColumn' => $sortColumn,
             'sortDirection' => $sortDirection
         ]);
@@ -54,7 +69,8 @@ class ProjectController extends Controller
         // On vérifie l'autorisation via la Policy avant d'afficher la page
         $this->authorize('update', $project);
         $clients = Client::all();
-        return view('projects.edit', ['project' => $project, 'clients' => $clients]);
+        $tags = Tag::all();
+        return view('projects.edit', ['project' => $project, 'clients' => $clients, 'tags' => $tags]);
     }
 
     /**
@@ -79,9 +95,12 @@ class ProjectController extends Controller
             ],
             'description' => 'nullable|string',
             'client_id' => 'nullable|exists:clients,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id'
         ]);
 
         $project->update($validated);
+        $project->tags()->sync($request->input('tags', []));
 
         return redirect()->route('dashboard')->with('success', 'Projet mis à jour avec succès !');
     }
@@ -89,7 +108,8 @@ class ProjectController extends Controller
     public function create()
     {
         $clients = Client::all();
-        return view('projects.create', ['clients' => $clients]);
+        $tags = Tag::all();
+        return view('projects.create', ['clients' => $clients, 'tags' => $tags]);
     }
 
     public function store(Request $request)
@@ -109,9 +129,15 @@ class ProjectController extends Controller
             ],
             'description' => 'nullable|string',
             'client_id' => 'nullable|exists:clients,id',
+            'tags' => 'nullable|array', // Valide que 'tags' est un tableau, s'il est présent
+            'tags.*' => 'exists:tags,id' // Valide que chaque ID de tag existe bien dans la table 'tags'
         ]);
-        // 2. Création via la relation, cela assigne le bon user_id
-        Auth::user()->projects()->create($validated);
+        // 2. Création du projet ET récupération de l'objet créé
+        $project = Auth::user()->projects()->create($validated);
+
+        if ($request->has('tags')) {
+            $project->tags()->attach($request->input('tags'));
+        }
         // 3. Redirection
         return redirect()->route('dashboard')->with('success', 'Projet créé avec succès !');
     }

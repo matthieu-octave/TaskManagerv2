@@ -1,61 +1,132 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+TaskManager - Gestionnaire de Tâches Collaboratif
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+TaskManager est une application web complète développée avec Laravel 12. Conçu comme un projet d'apprentissage approfondi, il couvre l'ensemble des fonctionnalités clés de l'écosystème Laravel, de l'authentification manuelle à la gestion des tâches en arrière-plan, en passant par un système d'autorisation basé sur les rôles.
 
-## About Laravel
+✨ Fonctionnalités Clés
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Ce projet intègre une large gamme de fonctionnalités qui démontrent une maîtrise complète du framework Laravel.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Gestion des Projets & Tâches
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+CRUD complet pour les Projets : Les utilisateurs peuvent créer, lire, modifier et supprimer leurs propres projets.
 
-## Learning Laravel
+CRUD complet pour les Tâches : Chaque projet possède ses propres tâches, avec la possibilité de les créer, les marquer comme terminées, et les supprimer.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Assignation de Tâches : Une tâche peut être assignée à n'importe quel utilisateur enregistré dans l'application.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Relations Eloquent : Utilisation propre des relations One-to-Many (Utilisateur -> Projets, Projet -> Tâches) et BelongsTo.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Sécurité & Autorisations
 
-## Laravel Sponsors
+Authentification Manuelle : Le système d'inscription, de connexion et de déconnexion a été construit de A à Z, sans starter kit, pour une compréhension approfondie des mécanismes de session.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Protection des Routes : Utilisation des middlewares (auth) pour protéger les zones de l'application.
 
-### Premium Partners
+Autorisations via Policies : Un utilisateur ne peut voir, modifier ou supprimer que les ressources (projets, tâches) qui lui appartiennent. Toute tentative d'accès non autorisé renvoie une erreur 403.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Rôle Administrateur & Gates : Un système de rôle simple (is_admin) a été mis en place, protégé par une Gate, pour donner accès à une section "Admin".
 
-## Contributing
+Fonctionnalités Avancées & Professionnelles
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Notifications par E-mail : Un e-mail est automatiquement envoyé à un utilisateur lorsqu'une tâche lui est assignée.
 
-## Code of Conduct
+Files d'Attente (Queues) : L'envoi des e-mails est délégué à une file d'attente (avec le driver database) pour ne pas ralentir l'interface utilisateur et garantir une expérience fluide.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Tests Automatisés : Le projet inclut des tests de fonctionnalité (Feature) et des tests unitaires (Unit) avec PHPUnit pour garantir la fiabilité du code.
 
-## Security Vulnerabilities
+Formulaire de Contact Public : Une page de contact permet aux visiteurs d'envoyer des messages, qui sont consultables dans la section "Admin".
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Profil Utilisateur : Les utilisateurs peuvent modifier leurs informations personnelles (nom, email) et téléverser un avatar.
 
-## License
+Gestion des Clients (CRUD Admin) : Une section complète, réservée aux administrateurs, pour gérer un portefeuille de clients.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Relations Complexes (Many-to-Many) : Les projets peuvent être catégorisés avec des étiquettes (Tags), démontrant la maîtrise des relations "plusieurs à plusieurs" avec table pivot.
+
+Recherche & Filtres : Le tableau de bord principal permet de filtrer les projets par statut (Actif/Archivé) et par étiquette, et inclut une barre de recherche.
+
+Suppression Douce (Soft Deletes) : Les projets ne sont pas supprimés définitivefement mais "archivés" dans une corbeille, d'où ils peuvent être restaurés.
+
+🛠️ Stack Technique
+
+Framework : Laravel 12
+
+Langage : PHP 8.3
+
+Base de données : MySQL
+
+Frontend : Bootstrap 5
+
+Tests : PHPUnit
+
+Serveur d'e-mails local : Mailtrap
+
+Dépendances de développement : Laravel Debugbar
+
+🚀 Installation & Démarrage
+
+Pour lancer ce projet sur votre machine locale, suivez ces étapes :
+
+Cloner le dépôt
+
+git clone [https://github.com/votre-nom/taskmanager.git](https://github.com/votre-nom/taskmanager.git)
+cd taskmanager
+
+
+Installer les dépendances
+
+composer install
+npm install
+npm run dev
+
+
+Configurer l'environnement
+
+Copiez le fichier d'exemple .env.example en .env.
+
+cp .env.example .env
+
+
+Générez la clé d'application.
+
+php artisan key:generate
+
+
+Configurez vos identifiants de base de données dans le fichier .env.
+
+Préparer la base de données
+
+Lancez les migrations pour créer toutes les tables et peuplez la base avec des données de test (un utilisateur admin, des clients, des tags...).
+
+php artisan migrate:fresh --seed
+
+
+Lier le stockage
+
+Cette commande est essentielle pour que les avatars téléversés soient visibles.
+
+php artisan storage:link
+
+
+Lancer l'application
+
+Lancez le serveur de développement.
+
+php artisan serve
+
+
+Dans un second terminal, lancez le "worker" pour qu'il traite les jobs en file d'attente (comme l'envoi d'e-mails).
+
+php artisan queue:work
+
+
+L'application est maintenant accessible à l'adresse http://127.0.0.1:8000.
+
+🧑‍💻 Utilisation
+
+Compte Administrateur : Un compte administrateur a été créé par le seeder.
+
+Email : admin@taskmanager.test
+
+Mot de passe : password
+
+Connectez-vous avec ce compte pour avoir accès à toutes les fonctionnalités, y compris la section "Messages" et la gestion des "Clients".
