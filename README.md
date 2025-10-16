@@ -2,7 +2,6 @@
 
 TaskManager est une application web complète développée avec Laravel 12. Conçu comme un projet d'apprentissage approfondi, il couvre l'ensemble des fonctionnalités clés de l'écosystème Laravel, de l'authentification manuelle à la gestion des tâches en arrière-plan, en passant par un système d'autorisation basé sur les rôles.
 
-![Aperçu du tableau de bord de TaskManager](https://placehold.co/800x400/333/FFF?text=Aperçu+de+l'application)
 
 ---
 
