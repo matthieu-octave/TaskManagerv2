@@ -2,15 +2,17 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
 use App\Models\Project;
 use App\Models\User;
-use Database\Factories\ProjectFactory;
-use Database\Factories\UserFactory;
-
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ProjectTest extends TestCase
 {
+    use RefreshDatabase; // Réinitialise la base de données avant chaque test
+
+    #[Test]
     public function a_project_belongs_to_a_user(): void
     {
         // ARRANGE : On prépare nos données de test
