@@ -8,6 +8,8 @@ use App\Policies\ClientPolicy;
 use App\Policies\ProjectPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Category;
+use App\Policies\CategoryPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -16,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Project::class => ProjectPolicy::class,
-         Client::class => ClientPolicy::class,
+        Client::class => ClientPolicy::class,
+        Category::class => CategoryPolicy::class,
     ];
     /** Register any authentication / authorization services.*/
     public function boot(): void

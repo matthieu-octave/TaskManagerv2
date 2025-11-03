@@ -15,8 +15,19 @@ class Project extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['title', 'description', 'status', 'client_id'];
+    protected $fillable = ['title', 'description', 'status', 'client_id', 'category_id'];
 
+    /**
+     * Obtenir la catégorie du projet.
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Obtenir le client du projet.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

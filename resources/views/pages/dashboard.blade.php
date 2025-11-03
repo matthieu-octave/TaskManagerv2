@@ -92,7 +92,7 @@
                         </a>
                     </th>
                     <th>Client</th>
-
+                    <th scope="col">Catégorie</th>
                     <th scope="col" class="text-end">Actions</th>
                 </tr>
             </thead>
@@ -112,7 +112,7 @@
                     <td>{{ $project->created_at->format('d/m/Y') }}</td>
 
                     <td>{{ ($project->client) ? $project->client->name : 'Aucun client associé'}}</td>
-
+                    <td>{{ $project->category?->name ?? 'N/A' }}</td>
                     <td>
                         <div class="d-flex gap-2 justify-content-end">
 
@@ -139,7 +139,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="3" class="text-center">Vous n'avez encore créé aucun projet.</td>
+                    <td colspan="5" class="text-center">Vous n'avez encore créé aucun projet.</td>
                 </tr>
                 @endforelse
             </tbody>

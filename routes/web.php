@@ -10,6 +10,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CategoryController;
 
 // Route pour la page d'accueil
 Route::get('/', [PageController::class, 'welcome'])->name('welcome');
@@ -58,6 +59,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Routes pour les clients
     Route::resource('clients', ClientController::class);
+
+    // Categories
+    Route::resource('categories', CategoryController::class);
 });
 
 Route::middleware(['auth', 'can:view-admin-panel'])->group(function () {

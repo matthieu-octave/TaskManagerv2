@@ -72,6 +72,16 @@
                                 Clients
                             </a>
                         </li>
+
+                        @can('viewAny', App\Models\Category::class)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('categories.index') }}">
+                                <span data-feather="layers"></span>
+                                Catégories
+                            </a>
+                        </li>
+                        @endcan
+
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <span data-feather="settings"></span>

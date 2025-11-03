@@ -11,6 +11,7 @@ use App\Policies\ProjectPolicy;
 use Illuminate\Validation\Rule;
 use App\Models\Client;
 use App\Models\Tag;
+use App\Models\Category;
 
 class ProjectController extends Controller
 {
@@ -35,7 +36,7 @@ class ProjectController extends Controller
         }
         // --- Construction de la requête Eloquent ---
         // 1. On commence la requête de base et on charge les relations pour la performance
-        $projectsQuery = Auth::user()->projects()->with('tags', 'client');
+        $projectsQuery = Auth::user()->projects()->with('tags', 'client', 'category');
         // 2. On applique le filtre de statut (via le scope que vous avez déjà créé)
         $projectsQuery->filterByStatus($statusFilter);
 
@@ -70,7 +71,14 @@ class ProjectController extends Controller
         $this->authorize('update', $project);
         $clients = Client::all();
         $tags = Tag::all();
-        return view('projects.edit', ['project' => $project, 'clients' => $clients, 'tags' => $tags]);
+        $categories = Category::all();
+
+        return view('projects.edit', [
+            'project' => $project,
+            'clients' => $clients,
+            'tags' => $tags,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -96,7 +104,8 @@ class ProjectController extends Controller
             'description' => 'nullable|string',
             'client_id' => 'nullable|exists:clients,id',
             'tags' => 'nullable|array',
-            'tags.*' => 'exists:tags,id'
+            'tags.*' => 'exists:tags,id',
+            'category_id' => 'nullable|exists:categories,id'
         ]);
 
         $project->update($validated);
@@ -109,7 +118,13 @@ class ProjectController extends Controller
     {
         $clients = Client::all();
         $tags = Tag::all();
-        return view('projects.create', ['clients' => $clients, 'tags' => $tags]);
+        $categories = Category::all();
+
+        return view('projects.create', [
+            'clients' => $clients,
+            'tags' => $tags,
+            'categories' => $categories
+        ]);
     }
 
     public function store(Request $request)
@@ -130,7 +145,8 @@ class ProjectController extends Controller
             'description' => 'nullable|string',
             'client_id' => 'nullable|exists:clients,id',
             'tags' => 'nullable|array', // Valide que 'tags' est un tableau, s'il est présent
-            'tags.*' => 'exists:tags,id' // Valide que chaque ID de tag existe bien dans la table 'tags'
+            'tags.*' => 'exists:tags,id',
+            'category_id' => 'nullable|exists:categories,id'
         ]);
         // 2. Création du projet ET récupération de l'objet créé
         $project = Auth::user()->projects()->create($validated);
