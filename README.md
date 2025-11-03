@@ -54,8 +54,8 @@ Pour lancer ce projet sur votre machine locale, suivez ces étapes :
 
 1.  **Cloner le dépôt**
     ```bash
-    git clone [https://github.com/votre-nom/taskmanager.git](https://github.com/votre-nom/taskmanager.git)
-    cd taskmanager
+    git clone [https://github.com/matthieu-octave/TaskManagerv2.git](https://github.com/matthieu-octave/TaskManagerv2.git)
+    cd TaskManagerv2
     ```
 
 2.  **Installer les dépendances**
@@ -104,7 +104,8 @@ L'application est maintenant accessible à l'adresse `http://127.0.0.1:8000`.
 
 ## 🧑‍💻 Utilisation
 
-- **Compte Administrateur :** Un compte administrateur a été créé par le seeder (si vous l'avez configuré, sinon créez-en un et passez `is_admin` à `true` dans la base de données).
+- **Compte Administrateur :** Un compte administrateur a été créé par le seeder
     - **Email :** `admin@taskmanager.test`
     - **Mot de passe :** `password`
 - Connectez-vous avec ce compte pour avoir accès à toutes les fonctionnalités, y compris la section "Messages", la gestion des "Clients" et la gestion des "Catégories".
+- Si vous voulez créer un autre compte administrateur, vous pouvez le faire en vous inscrivant normalement, puis en passant `is_admin` à `true` dans la table users dans la base de données.
