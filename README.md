@@ -108,4 +108,4 @@ L'application est maintenant accessible à l'adresse `http://127.0.0.1:8000`.
     - **Email :** `admin@taskmanager.test`
     - **Mot de passe :** `password`
 - Connectez-vous avec ce compte pour avoir accès à toutes les fonctionnalités, y compris la section "Messages", la gestion des "Clients" et la gestion des "Catégories".
-- Si vous voulez créer un autre compte administrateur, vous pouvez le faire en vous inscrivant normalement, puis en passant `is_admin` à `true` dans la table users dans la base de données.
+- Si vous voulez créer un autre compte administrateur, vous pouvez le faire en vous inscrivant normalement, puis en passant `is_admin` à `true` dans la table users de la base de données.
