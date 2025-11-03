@@ -1,8 +1,3 @@
-Absolument. Voici le code Markdown complet pour le fichier `README.md` mis à jour, incluant toutes les dernières fonctionnalités du projet "TaskManager".
-
-Vous pouvez copier-coller ce bloc de code directement dans un fichier `README.md` à la racine de votre projet GitHub.
-
-````markdown
 # TaskManager - Gestionnaire de Tâches Collaboratif
 
 TaskManager est une application web complète développée avec Laravel 12. Conçu comme un projet d'apprentissage approfondi, il couvre l'ensemble des fonctionnalités clés de l'écosystème Laravel, de l'authentification manuelle à la gestion des tâches en arrière-plan, en passant par un système d'autorisation basé sur les rôles.
@@ -114,4 +109,3 @@ L'application est maintenant accessible à l'adresse `http://127.0.0.1:8000`.
     - **Email :** `admin@taskmanager.test`
     - **Mot de passe :** `password`
 - Connectez-vous avec ce compte pour avoir accès à toutes les fonctionnalités, y compris la section "Messages", la gestion des "Clients" et la gestion des "Catégories".
-````
